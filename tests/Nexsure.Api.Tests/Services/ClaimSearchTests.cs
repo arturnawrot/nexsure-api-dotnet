@@ -21,7 +21,7 @@ public class ClaimSearchTests
                     "ClaimDetail": { "ClaimNo": "CLM-1", "Status": "Open", "DateOfLoss": "2024-01-01" }
                   }
                 ],
-                "TotalPages": 3
+                "TotalPages": "3"
               }
             }
             """,

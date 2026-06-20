@@ -57,7 +57,8 @@ public sealed class SicNaicsSearch : AbstractService<SicNaicsSearchResponse>
     {
         var container = root?["SicNaicsList"];
         var codes = AsArray(container?["NaicSicCode"]).Select(n => Deserialize<NaicSicCode>(n)!).ToList();
-        var totalPages = (int?)(container?["TotalPages"]) ?? 0;
+        // Deserialize (not a direct (int?) cast) so the API's string-encoded ints are tolerated.
+        var totalPages = Deserialize<int?>(container?["TotalPages"]) ?? 0;
         return new SicNaicsSearchResponse { Codes = codes, TotalPages = totalPages };
     }
 }
