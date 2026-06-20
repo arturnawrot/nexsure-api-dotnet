@@ -32,6 +32,7 @@ public static class NexsureJson
         // OR as strings. These converters tolerate either so one field can't fail a parse.
         options.Converters.Add(new FlexibleBooleanConverter());
         options.Converters.Add(new FlexibleStringConverter());
+        options.Converters.Add(new FlexibleInt32Converter());
         return options;
     }
 }

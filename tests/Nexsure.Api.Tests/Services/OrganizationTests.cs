@@ -9,13 +9,15 @@ public class OrganizationTests
     [Fact]
     public async Task SearchBranch_NoArgs_ToleratesStringBooleansAndNumericIds()
     {
-        // The live API returns IsActive as the string "true"/"false" (see demo.ipynb).
+        // The live API returns IsActive as the string "true"/"false" and BranchID as a
+        // quoted string (e.g. "15") rather than a JSON number (see demo.ipynb). Mix both a
+        // string and a numeric id here to prove the int converter tolerates either.
         var client = TestSupport.ClientWithResponse(
             """
             {
               "Branches": {
                 "Branch": [
-                  { "BranchID": 1, "BranchName": "Insurekore Ltd.", "IsActive": "true" },
+                  { "BranchID": "1", "BranchName": "Insurekore Ltd.", "IsActive": "true" },
                   { "BranchID": 2, "BranchName": "Tech-Insure Consulting Ltd.", "IsActive": "false" }
                 ]
               }
