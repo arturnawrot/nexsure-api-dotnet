@@ -30,6 +30,31 @@ public sealed class FlexibleBooleanConverter : JsonConverter<bool>
 }
 
 /// <summary>
+/// Reads a 32-bit integer that the Nexsure EAI API may send as a real JSON number or as a
+/// string (the API is inconsistent about quoting ids — e.g. <c>"BranchID": "15"</c>). Empty
+/// strings parse to <c>0</c>; combined with a registered <see cref="int"/> converter this
+/// also covers <see cref="Nullable{Int32}"/>. Writes a normal JSON number.
+/// </summary>
+public sealed class FlexibleInt32Converter : JsonConverter<int>
+{
+    public override int Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) =>
+        reader.TokenType switch
+        {
+            JsonTokenType.Number => reader.GetInt32(),
+            JsonTokenType.String => ParseString(reader.GetString()),
+            _ => throw new JsonException($"Cannot convert {reader.TokenType} to int."),
+        };
+
+    private static int ParseString(string? value) =>
+        string.IsNullOrWhiteSpace(value)
+            ? 0
+            : int.Parse(value, NumberStyles.Integer, CultureInfo.InvariantCulture);
+
+    public override void Write(Utf8JsonWriter writer, int value, JsonSerializerOptions options) =>
+        writer.WriteNumberValue(value);
+}
+
+/// <summary>
 /// Reads a string that the API may send as an actual string, a number, or a boolean (the
 /// EAI API is inconsistent about quoting ids and flags). Writes a normal JSON string.
 /// </summary>
