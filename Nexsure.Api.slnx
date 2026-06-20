@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/demo/">
+    <Project Path="demo/Nexsure.Api.Demo/Nexsure.Api.Demo.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Nexsure.Api/Nexsure.Api.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Nexsure.Api.Tests/Nexsure.Api.Tests.csproj" />
+  </Folder>
+</Solution>
