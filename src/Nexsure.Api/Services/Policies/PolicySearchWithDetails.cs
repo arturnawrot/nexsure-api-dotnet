@@ -51,7 +51,8 @@ public sealed class PolicySearchWithDetails : AbstractService<PolicySearchWithDe
     {
         var container = root?["Policies"] ?? root;
         var policies = AsArray(container?["Policy"]).Select(n => Deserialize<Policy>(n)!).ToList();
-        var totalPages = (int?)(container?["TotalPages"]) ?? 0;
+        // Deserialize (not a direct (int?) cast) so the API's string-encoded ints are tolerated.
+        var totalPages = Deserialize<int?>(container?["TotalPages"]) ?? 0;
         return new PolicySearchWithDetailsResponse { Policies = policies, TotalPages = totalPages };
     }
 }

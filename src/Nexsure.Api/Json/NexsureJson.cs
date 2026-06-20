@@ -33,6 +33,9 @@ public static class NexsureJson
         options.Converters.Add(new FlexibleBooleanConverter());
         options.Converters.Add(new FlexibleStringConverter());
         options.Converters.Add(new FlexibleInt32Converter());
+
+        // The API returns single-element collections as a lone object, not a one-item array.
+        options.Converters.Add(new SingleOrArrayListConverterFactory());
         return options;
     }
 }

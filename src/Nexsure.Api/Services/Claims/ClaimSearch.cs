@@ -96,7 +96,8 @@ public sealed class ClaimSearch : AbstractService<ClaimSearchResponse>
     {
         var container = root?["Claims"];
         var claims = AsArray(container?["Claim"]).Select(n => Deserialize<Claim>(n)!).ToList();
-        var totalPages = (int?)(container?["TotalPages"]) ?? 0;
+        // Deserialize (not a direct (int?) cast) so the API's string-encoded ints are tolerated.
+        var totalPages = Deserialize<int?>(container?["TotalPages"]) ?? 0;
         return new ClaimSearchResponse { Claims = claims, TotalPages = totalPages };
     }
 }
